@@ -113,7 +113,7 @@ function SwipeCard({
         {/* Photo area */}
         <div style={{ position: "relative", flex: 1, background: T.surfaceSoft }}>
           {user.image ? (
-            <Image src={user.image} alt={user.name ?? ""} fill className="object-cover" />
+            <Image src={user.image} alt={user.name ?? ""} fill className="object-cover" draggable={false} style={{ pointerEvents: "none" }} />
           ) : (
             <div style={{
               position: "absolute", inset: 0, display: "flex", alignItems: "center",
@@ -286,30 +286,42 @@ export default function FeedPage() {
         gap: 20, padding: "12px 0",
         background: T.canvas, borderTop: `1px solid ${T.hairlineSoft}`,
       }}>
-        {/* Pass — icon circular */}
-        <motion.button whileTap={{ scale: 0.82 }} onClick={handlePass} style={{
-          width: 52, height: 52, borderRadius: T.rFull,
-          background: T.surfaceSoft, border: `1px solid ${T.hairline}`,
-          display: "flex", alignItems: "center", justifyContent: "center",
-        }}>
+        {/* Pass */}
+        <motion.button
+          whileTap={{ scale: 0.82 }}
+          animate={{ backgroundColor: T.surfaceSoft }}
+          whileHover={{ backgroundColor: "#f3c9b6" }}
+          onClick={handlePass}
+          style={{
+            width: 52, height: 52, borderRadius: T.rFull,
+            background: T.surfaceSoft, border: `1px solid ${T.hairline}`,
+            display: "flex", alignItems: "center", justifyContent: "center",
+          }}>
           <X size={20} color="rgba(0,0,0,0.45)" />
         </motion.button>
 
-        {/* Like — button-primary pill adapted to circle */}
-        <motion.button whileTap={{ scale: 0.86 }} onClick={handleLike} style={{
-          width: 60, height: 60, borderRadius: T.rFull,
-          background: T.primary,
-          display: "flex", alignItems: "center", justifyContent: "center",
-        }}>
+        {/* Like */}
+        <motion.button
+          whileTap={{ scale: 0.86, backgroundColor: T.success }}
+          onClick={handleLike}
+          style={{
+            width: 60, height: 60, borderRadius: T.rFull,
+            background: T.primary,
+            display: "flex", alignItems: "center", justifyContent: "center",
+            border: "none",
+          }}>
           <Heart size={24} fill={T.onPrimary} color={T.onPrimary} />
         </motion.button>
 
-        {/* Profile — icon circular */}
-        <motion.button whileTap={{ scale: 0.82 }} onClick={() => router.push(`/profile/${current.id}`)} style={{
-          width: 52, height: 52, borderRadius: T.rFull,
-          background: T.surfaceSoft, border: `1px solid ${T.hairline}`,
-          display: "flex", alignItems: "center", justifyContent: "center",
-        }}>
+        {/* Profile */}
+        <motion.button
+          whileTap={{ scale: 0.82 }}
+          onClick={() => router.push(`/profile/${current.id}`)}
+          style={{
+            width: 52, height: 52, borderRadius: T.rFull,
+            background: T.surfaceSoft, border: `1px solid ${T.hairline}`,
+            display: "flex", alignItems: "center", justifyContent: "center",
+          }}>
           <Star size={20} color={T.navy} />
         </motion.button>
       </div>

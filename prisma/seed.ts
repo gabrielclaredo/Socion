@@ -9,7 +9,7 @@ const users = [
   {
     email: "teste@socion.app",
     name: "Gabriel Teste",
-    image: "https://api.dicebear.com/7.x/avataaars/svg?seed=gabriel",
+    image: "https://randomuser.me/api/portraits/men/32.jpg",
     headline: "CTO buscando co-fundador de negócios",
     location: "São Paulo, SP",
     availability: "40h/semana (Full Time)",
@@ -23,7 +23,7 @@ const users = [
   {
     email: "ana.rodrigues@socion.app",
     name: "Ana Rodrigues",
-    image: "https://api.dicebear.com/7.x/avataaars/svg?seed=ana",
+    image: "https://randomuser.me/api/portraits/women/44.jpg",
     headline: "CMO ex-Nubank, especialista em growth B2C",
     location: "São Paulo, SP",
     availability: "20h/semana (Part Time)",
@@ -37,7 +37,7 @@ const users = [
   {
     email: "lucas.ferreira@socion.app",
     name: "Lucas Ferreira",
-    image: "https://api.dicebear.com/7.x/avataaars/svg?seed=lucas",
+    image: "https://randomuser.me/api/portraits/men/52.jpg",
     headline: "Serial entrepreneur, 2 exits, buscando próximo projeto",
     location: "Florianópolis, SC",
     availability: "40h/semana (Full Time)",
@@ -51,7 +51,7 @@ const users = [
   {
     email: "mariana.costa@socion.app",
     name: "Mariana Costa",
-    image: "https://api.dicebear.com/7.x/avataaars/svg?seed=mariana",
+    image: "https://randomuser.me/api/portraits/women/68.jpg",
     headline: "Designer de produto, 8 anos em apps mobile",
     location: "Rio de Janeiro, RJ",
     availability: "30h/semana",
@@ -65,7 +65,7 @@ const users = [
   {
     email: "pedro.alves@socion.app",
     name: "Pedro Alves",
-    image: "https://api.dicebear.com/7.x/avataaars/svg?seed=pedro",
+    image: "https://randomuser.me/api/portraits/men/41.jpg",
     headline: "CFO & advisor, especialista em estruturação financeira",
     location: "Belo Horizonte, MG",
     availability: "10h/semana (Advisory)",
@@ -79,7 +79,7 @@ const users = [
   {
     email: "sofia.lima@socion.app",
     name: "Sofia Lima",
-    image: "https://api.dicebear.com/7.x/avataaars/svg?seed=sofia",
+    image: "https://randomuser.me/api/portraits/women/26.jpg",
     headline: "Engenheira de dados, fundo de IA na FAPESP",
     location: "Campinas, SP",
     availability: "40h/semana (Full Time)",
@@ -93,7 +93,7 @@ const users = [
   {
     email: "rafael.santos@socion.app",
     name: "Rafael Santos",
-    image: "https://api.dicebear.com/7.x/avataaars/svg?seed=rafael",
+    image: "https://randomuser.me/api/portraits/men/77.jpg",
     headline: "Head of Sales, especializado em enterprise SaaS",
     location: "Porto Alegre, RS",
     availability: "40h/semana (Full Time)",
@@ -107,7 +107,7 @@ const users = [
   {
     email: "camila.vieira@socion.app",
     name: "Camila Vieira",
-    image: "https://api.dicebear.com/7.x/avataaars/svg?seed=camila",
+    image: "https://randomuser.me/api/portraits/women/55.jpg",
     headline: "Médica e empreendedora, fundadora de 2 healthtechs",
     location: "Curitiba, PR",
     availability: "20h/semana (Part Time)",
@@ -121,7 +121,7 @@ const users = [
   {
     email: "thiago.mendes@socion.app",
     name: "Thiago Mendes",
-    image: "https://api.dicebear.com/7.x/avataaars/svg?seed=thiago",
+    image: "https://randomuser.me/api/portraits/men/18.jpg",
     headline: "Full-stack dev, open source contributor, ex-VTEX",
     location: "Recife, PE",
     availability: "40h/semana (Full Time)",
@@ -135,7 +135,7 @@ const users = [
   {
     email: "julia.nascimento@socion.app",
     name: "Julia Nascimento",
-    image: "https://api.dicebear.com/7.x/avataaars/svg?seed=julia",
+    image: "https://randomuser.me/api/portraits/women/33.jpg",
     headline: "COO operacional, escala de 0 a 1 em startups early-stage",
     location: "São Paulo, SP",
     availability: "40h/semana (Full Time)",
@@ -152,7 +152,7 @@ async function main() {
   for (const u of users) {
     const created = await db.user.upsert({
       where: { email: u.email },
-      update: {},
+      update: { image: u.image },
       create: {
         name: u.name,
         email: u.email,
