@@ -1,0 +1,216 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Plan {
+  FREE
+  TRIAL
+  PRO
+}
+
+enum VerificationStatus {
+  PENDING
+  VERIFIED
+  REJECTED
+}
+
+model User {
+  id                     String    @id @default(cuid())
+  name                   String?
+  email                  String    @unique
+  emailVerified          DateTime?
+  image                  String?
+  headline               String?
+  location               String?
+  linkedinId             String?   @unique
+  linkedinData           Json?
+  plan                   Plan      @default(FREE)
+  trialEndsAt            DateTime?
+  stripeCustomerId       String?   @unique
+  stripePriceId          String?
+  stripeSubscriptionId   String?   @unique
+  stripeCurrentPeriodEnd DateTime?
+  trustScore             Int       @default(0)
+  identityScore          Int       @default(0)
+  experienceScore        Int       @default(0)
+  competenceScore        Int       @default(0)
+  reputationScore        Int       @default(0)
+  commitmentScore        Int       @default(0)
+  compatibilityScore     Int       @default(0)
+  verificationStatus     VerificationStatus @default(PENDING)
+  availability           String?
+  investmentRange        String?
+  businessType           String[]
+  desiredRoles           String[]
+  offeredRoles           String[]
+  createdAt              DateTime  @default(now())
+  updatedAt              DateTime  @updatedAt
+
+  accounts          Account[]
+  sessions          Session[]
+  skills            Skill[]
+  projects          Project[]
+  values            UserValue[]
+  sentLikes         Like[]        @relation("SentLikes")
+  receivedLikes     Like[]        @relation("ReceivedLikes")
+  sentProposals     Proposal[]    @relation("SentProposals")
+  receivedProposals Proposal[]    @relation("ReceivedProposals")
+  partnershipA      Partnership[] @relation("PartnerA")
+  partnershipB      Partnership[] @relation("PartnerB")
+  documents         Document[]
+  pitchVideo        PitchVideo?
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+model Skill {
+  id        String   @id @default(cuid())
+  userId    String
+  name      String
+  category  String
+  origin    String?
+  validated Boolean  @default(false)
+  evidence  String?
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Project {
+  id          String   @id @default(cuid())
+  userId      String
+  title       String
+  description String
+  duration    String?
+  results     String?
+  links       String[]
+  createdAt   DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model UserValue {
+  id       String @id @default(cuid())
+  userId   String
+  question String
+  answer   String
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Like {
+  id         String   @id @default(cuid())
+  senderId   String
+  receiverId String
+  createdAt  DateTime @default(now())
+
+  sender   User @relation("SentLikes", fields: [senderId], references: [id], onDelete: Cascade)
+  receiver User @relation("ReceivedLikes", fields: [receiverId], references: [id], onDelete: Cascade)
+
+  @@unique([senderId, receiverId])
+}
+
+model Partnership {
+  id        String   @id @default(cuid())
+  userAId   String
+  userBId   String
+  status    String   @default("matched")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  userA     User            @relation("PartnerA", fields: [userAId], references: [id], onDelete: Cascade)
+  userB     User            @relation("PartnerB", fields: [userBId], references: [id], onDelete: Cascade)
+  proposals Proposal[]
+  timeline  TimelineEvent[]
+
+  @@unique([userAId, userBId])
+}
+
+model Proposal {
+  id             String   @id @default(cuid())
+  partnershipId  String
+  senderId       String
+  receiverId     String
+  equity         Float
+  role           String
+  investmentType String
+  message        String
+  status         String   @default("sent")
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  partnership Partnership @relation(fields: [partnershipId], references: [id], onDelete: Cascade)
+  sender      User        @relation("SentProposals", fields: [senderId], references: [id], onDelete: Cascade)
+  receiver    User        @relation("ReceivedProposals", fields: [receiverId], references: [id], onDelete: Cascade)
+}
+
+model TimelineEvent {
+  id            String    @id @default(cuid())
+  partnershipId String
+  title         String
+  description   String?
+  completed     Boolean   @default(false)
+  completedAt   DateTime?
+  createdAt     DateTime  @default(now())
+
+  partnership Partnership @relation(fields: [partnershipId], references: [id], onDelete: Cascade)
+}
+
+model Document {
+  id        String   @id @default(cuid())
+  userId    String
+  type      String
+  url       String
+  status    String   @default("pending")
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model PitchVideo {
+  id        String   @id @default(cuid())
+  userId    String   @unique
+  url       String
+  duration  Int?
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}

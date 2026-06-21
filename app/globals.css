@@ -1,0 +1,58 @@
+@import "tailwindcss";
+
+/* ── Design tokens from DESIGN.md ───────────────────────────── */
+:root {
+  /* Colors */
+  --color-primary:       #000000;
+  --color-on-primary:    #ffffff;
+  --color-canvas:        #ffffff;
+  --color-ink:           #000000;
+  --color-surface-soft:  #f7f7f5;
+  --color-hairline:      #e6e6e6;
+  --color-hairline-soft: #f1f1f1;
+  --color-block-lime:    #dceeb1;
+  --color-block-lilac:   #c5b0f4;
+  --color-block-cream:   #f4ecd6;
+  --color-block-pink:    #efd4d4;
+  --color-block-mint:    #c8e6cd;
+  --color-block-coral:   #f3c9b6;
+  --color-block-navy:    #1f1d3d;
+  --color-accent-magenta:#ff3d8b;
+  --color-success:       #1ea64a;
+
+  /* Border Radius */
+  --rounded-xs:   2px;
+  --rounded-sm:   6px;
+  --rounded-md:   8px;
+  --rounded-lg:   24px;
+  --rounded-xl:   32px;
+  --rounded-pill: 50px;
+  --rounded-full: 9999px;
+
+  /* Spacing */
+  --space-hair: 1px;
+  --space-xxs:  4px;
+  --space-xs:   8px;
+  --space-sm:   12px;
+  --space-md:   16px;
+  --space-lg:   24px;
+  --space-xl:   32px;
+  --space-xxl:  48px;
+  --space-section: 96px;
+}
+
+@theme inline {
+  --font-sans: var(--font-inter);
+  --font-outfit: var(--font-outfit);
+}
+
+body {
+  background: var(--color-canvas);
+  color: var(--color-ink);
+  font-family: var(--font-inter), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+.font-outfit {
+  font-family: var(--font-outfit), system-ui, sans-serif;
+}
