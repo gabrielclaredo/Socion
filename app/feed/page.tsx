@@ -78,7 +78,6 @@ function SwipeCard({
       animate={{ scale: isTop ? 1 : 0.965, y: isTop ? 0 : 10 }}
       exit={{ x: x.get() > 0 ? 500 : -500, opacity: 0, transition: { duration: 0.26 } }}
       className="touch-none"
-      style={{ x, rotate, position: "absolute", inset: 0, cursor: isTop ? "grab" : "default" }}
       onClick={isTop ? handleClick : undefined}
     >
       {/* Swipe stamps */}
