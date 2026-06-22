@@ -242,8 +242,7 @@ export default function SettingsPage() {
         </a>
         <button style={{
           width: "100%", display: "flex", alignItems: "center", gap: 12, padding: "16px 20px",
-          borderBottom: "1px solid var(--border)", background: "none", border: "none",
-          borderBottom: "1px solid var(--border)", cursor: "pointer",
+          borderBottom: "1px solid var(--border)", background: "none", cursor: "pointer",
         }}>
           <div style={{ width: 36, height: 36, borderRadius: "50%", background: "var(--success-light)", display: "flex", alignItems: "center", justifyContent: "center" }}>
             <Shield size={16} color="var(--success)" />
