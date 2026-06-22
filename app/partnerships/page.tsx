@@ -36,69 +36,74 @@ export default function PartnershipsPage() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center" style={{ height: "100dvh" }}>
-        <div className="w-8 h-8 rounded-full border-2 border-t-transparent animate-spin" style={{ borderColor: "var(--color-block-lilac)" }} />
+      <div style={{ height: "100dvh", display: "flex", alignItems: "center", justifyContent: "center", background: "var(--bg)" }}>
+        <div style={{ width: 32, height: 32, borderRadius: "50%", border: "2px solid var(--accent)", borderTopColor: "transparent" }} className="animate-spin" />
       </div>
     )
   }
 
   return (
-    <div className="max-w-sm mx-auto" style={{ minHeight: "100dvh", background: "var(--color-surface-soft)", paddingBottom: 80 }}>
-      <div className="px-5 pt-12 pb-4" style={{ background: "var(--color-canvas)", borderBottom: "1px solid var(--color-hairline-soft)" }}>
-        <h1 className="font-bold text-2xl" style={{ color: "var(--color-ink)", letterSpacing: "-0.3px" }}>Conexões</h1>
-        <p className="text-sm mt-0.5" style={{ color: "rgba(0,0,0,0.45)" }}>
+    <div style={{ minHeight: "100dvh", background: "var(--bg)", maxWidth: 428, margin: "0 auto", paddingBottom: 80 }}>
+      <div style={{ padding: "48px 20px 16px", background: "var(--bg-card)", borderBottom: "1px solid var(--border)" }}>
+        <h1 style={{ fontWeight: 700, fontSize: 24, color: "var(--text)", letterSpacing: "-0.3px", fontFamily: "var(--font-space, system-ui)" }}>Conexões</h1>
+        <p style={{ fontSize: 14, marginTop: 2, color: "var(--text-muted)" }}>
           {partnerships.length} match{partnerships.length !== 1 ? "es" : ""}
         </p>
       </div>
 
       {partnerships.length === 0 ? (
-        <div className="flex flex-col items-center justify-center gap-4 p-10 mt-8">
-          <div className="w-20 h-20 rounded-full flex items-center justify-center" style={{ background: "var(--color-block-lilac)" }}>
-            <Users className="w-10 h-10" style={{ color: "var(--color-block-navy)" }} />
+        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 16, padding: 40, marginTop: 32 }}>
+          <div style={{ width: 80, height: 80, borderRadius: "50%", background: "var(--accent-light)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+            <Users size={40} color="var(--accent)" />
           </div>
-          <h2 className="font-bold text-lg text-center" style={{ color: "var(--color-ink)" }}>Nenhuma conexão ainda</h2>
-          <p className="text-sm text-center" style={{ color: "rgba(0,0,0,0.5)" }}>Explore perfis e dê likes para criar matches!</p>
-          <button onClick={() => router.push("/feed")} className="px-6 py-3 font-semibold text-sm"
-            style={{ background: "var(--color-primary)", color: "var(--color-canvas)", borderRadius: "var(--rounded-pill)" }}>
+          <h2 style={{ fontWeight: 700, fontSize: 18, textAlign: "center", color: "var(--text)" }}>Nenhuma conexão ainda</h2>
+          <p style={{ fontSize: 14, textAlign: "center", color: "var(--text-muted)" }}>Explore perfis e dê likes para criar matches!</p>
+          <button onClick={() => router.push("/feed")} style={{
+            padding: "12px 24px", fontWeight: 600, fontSize: 14, cursor: "pointer",
+            background: "var(--accent)", color: "#fff", borderRadius: 50, border: "none",
+          }}>
             Explorar Perfis
           </button>
         </div>
       ) : (
-        <div className="flex flex-col gap-2 p-4">
+        <div style={{ display: "flex", flexDirection: "column", gap: 8, padding: 16 }}>
           {partnerships.map((p) => {
             const partner = getPartner(p)
             const progress = getProgress(p)
             const hasProposal = p.proposals.some((pr) => pr.status === "pending")
             return (
               <button key={p.id} onClick={() => router.push(`/partnerships/${p.id}`)}
-                className="w-full text-left p-4 flex items-center gap-3 transition-colors"
-                style={{ background: "var(--color-canvas)", borderRadius: "var(--rounded-lg)", border: "1px solid var(--color-hairline)" }}>
-                <div className="relative shrink-0">
+                style={{
+                  width: "100%", textAlign: "left", padding: 16, display: "flex", alignItems: "center", gap: 12,
+                  background: "var(--bg-card)", borderRadius: 24, border: "1px solid var(--border)", cursor: "pointer",
+                }}>
+                <div style={{ position: "relative", flexShrink: 0 }}>
                   {partner.image ? (
-                    <Image src={partner.image} alt={partner.name ?? ""} width={52} height={52} className="rounded-full object-cover" />
+                    <Image src={partner.image} alt={partner.name ?? ""} width={52} height={52} style={{ borderRadius: "50%", objectFit: "cover" }} />
                   ) : (
-                    <div className="w-13 h-13 w-[52px] h-[52px] rounded-full flex items-center justify-center font-bold text-lg"
-                      style={{ background: "var(--color-block-lilac)", color: "var(--color-block-navy)" }}>
+                    <div style={{ width: 52, height: 52, borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 700, fontSize: 18, background: "var(--accent-light)", color: "var(--accent)" }}>
                       {partner.name?.[0] ?? "?"}
                     </div>
                   )}
-                  <div className="absolute -bottom-0.5 -right-0.5 w-4 h-4 rounded-full border-2 border-white" style={{ background: "var(--color-success)" }} />
+                  <div style={{ position: "absolute", bottom: -2, right: -2, width: 16, height: 16, borderRadius: "50%", border: "2px solid var(--bg-card)", background: "var(--success)" }} />
                 </div>
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center justify-between gap-2">
-                    <h3 className="font-semibold text-sm truncate" style={{ color: "var(--color-ink)" }}>{partner.name}</h3>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8 }}>
+                    <h3 style={{ fontWeight: 600, fontSize: 14, color: "var(--text)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{partner.name}</h3>
                     {hasProposal && (
-                      <span className="text-xs px-2 py-0.5 font-medium shrink-0"
-                        style={{ background: "var(--color-block-lilac)", color: "var(--color-block-navy)", borderRadius: "var(--rounded-pill)" }}>
+                      <span style={{
+                        fontSize: 11, padding: "2px 8px", fontWeight: 600, flexShrink: 0,
+                        background: "var(--accent-light)", color: "var(--accent)", borderRadius: 50,
+                      }}>
                         Proposta
                       </span>
                     )}
                   </div>
-                  <p className="text-xs mt-0.5 truncate" style={{ color: "rgba(0,0,0,0.45)" }}>{partner.headline}</p>
-                  <div className="mt-2 h-1 rounded-full" style={{ background: "var(--color-hairline)" }}>
-                    <div className="h-full rounded-full" style={{ width: `${progress}%`, background: "var(--color-block-navy)" }} />
+                  <p style={{ fontSize: 12, marginTop: 2, color: "var(--text-muted)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{partner.headline}</p>
+                  <div style={{ marginTop: 8, height: 4, borderRadius: 4, background: "var(--border)" }}>
+                    <div style={{ height: "100%", borderRadius: 4, width: `${progress}%`, background: "var(--accent)" }} />
                   </div>
-                  <p className="text-xs mt-1" style={{ color: "rgba(0,0,0,0.35)" }}>{progress}% da jornada</p>
+                  <p style={{ fontSize: 11, marginTop: 4, color: "var(--text-muted)" }}>{progress}% da jornada</p>
                 </div>
               </button>
             )

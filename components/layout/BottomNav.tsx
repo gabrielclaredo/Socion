@@ -1,13 +1,14 @@
 "use client"
-// nav
+
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { Home, Users, MessageSquare, User } from "lucide-react"
+import { Home, Search, Heart, Users, User } from "lucide-react"
 
 const links = [
-  { href: "/feed", icon: Home, label: "Feed" },
-  { href: "/partnerships", icon: Users, label: "Parcerias" },
-  { href: "/dashboard", icon: MessageSquare, label: "Mensagens" },
+  { href: "/feed", icon: Home, label: "Início" },
+  { href: "/search", icon: Search, label: "Buscar" },
+  { href: "/favorites", icon: Heart, label: "Favoritos" },
+  { href: "/partnerships", icon: Users, label: "Matches" },
   { href: "/settings", icon: User, label: "Perfil" },
 ]
 
@@ -15,24 +16,24 @@ export function BottomNav() {
   const pathname = usePathname()
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 max-w-sm mx-auto flex items-center z-20"
-      style={{ background: "var(--color-canvas)", borderTop: "1px solid var(--color-hairline)", height: 64 }}>
+    <nav style={{
+      position: "fixed", bottom: 0, left: 0, right: 0,
+      maxWidth: 428, margin: "0 auto",
+      background: "rgba(10,13,58,0.95)", backdropFilter: "blur(16px)",
+      borderTop: "1px solid rgba(255,255,255,0.06)",
+      height: 64, display: "flex", alignItems: "stretch", zIndex: 20,
+    }}>
       {links.map(({ href, icon: Icon, label }) => {
-        const active = pathname.startsWith(href)
+        const active = pathname === href || pathname.startsWith(href + "/")
         return (
-          <Link
-            key={href}
-            href={href}
-            className="flex-1 flex flex-col items-center py-3 gap-0.5"
-          >
-            <Icon
-              className="w-5 h-5 transition-colors"
-              style={{ color: active ? "var(--color-block-navy)" : "rgba(0,0,0,0.35)" }}
-            />
-            <span
-              className="text-[10px] transition-colors"
-              style={{ color: active ? "var(--color-block-navy)" : "rgba(0,0,0,0.35)" }}
-            >{label}</span>
+          <Link key={href} href={href} style={{
+            flex: 1, display: "flex", flexDirection: "column", alignItems: "center",
+            justifyContent: "center", gap: 3, textDecoration: "none",
+          }}>
+            <Icon size={20} color={active ? "#5865F2" : "#8B90A8"} />
+            <span style={{ fontSize: 10, color: active ? "#5865F2" : "#8B90A8", fontWeight: active ? 600 : 400 }}>
+              {label}
+            </span>
           </Link>
         )
       })}

@@ -56,57 +56,58 @@ export default function DashboardPage() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center" style={{ height: "100dvh" }}>
-        <div className="w-8 h-8 rounded-full border-2 border-t-transparent animate-spin" style={{ borderColor: "var(--color-block-lilac)" }} />
+      <div style={{ height: "100dvh", display: "flex", alignItems: "center", justifyContent: "center", background: "var(--bg)" }}>
+        <div style={{ width: 32, height: 32, borderRadius: "50%", border: "2px solid var(--accent)", borderTopColor: "transparent" }} className="animate-spin" />
       </div>
     )
   }
 
   return (
-    <div className="max-w-sm mx-auto" style={{ minHeight: "100dvh", background: "var(--color-canvas)", paddingBottom: 80 }}>
+    <div style={{ minHeight: "100dvh", background: "var(--bg)", maxWidth: 428, margin: "0 auto", paddingBottom: 80 }}>
       {/* Header */}
-      <div className="px-5 pt-12 pb-4" style={{ borderBottom: "1px solid var(--color-hairline-soft)" }}>
-        <h1 className="font-bold text-2xl" style={{ color: "var(--color-ink)", letterSpacing: "-0.3px" }}>Mensagens</h1>
-        <p className="text-sm mt-0.5" style={{ color: "rgba(0,0,0,0.45)" }}>
+      <div style={{ padding: "48px 20px 16px", borderBottom: "1px solid var(--border)" }}>
+        <h1 style={{ fontWeight: 700, fontSize: 24, color: "var(--text)", letterSpacing: "-0.3px", fontFamily: "var(--font-space, system-ui)" }}>Mensagens</h1>
+        <p style={{ fontSize: 14, marginTop: 2, color: "var(--text-muted)" }}>
           {convs.length} conversa{convs.length !== 1 ? "s" : ""}
         </p>
       </div>
 
       {/* Search */}
-      <div className="px-4 py-3" style={{ background: "var(--color-canvas)", borderBottom: "1px solid var(--color-hairline-soft)" }}>
-        <div className="flex items-center gap-2 px-3 py-2 rounded-[var(--rounded-md)]" style={{ background: "var(--color-surface-soft)" }}>
-          <Search className="w-4 h-4 shrink-0" style={{ color: "rgba(0,0,0,0.35)" }} />
+      <div style={{ padding: "12px 16px", borderBottom: "1px solid var(--border)" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 8, padding: "8px 12px", borderRadius: 8, background: "var(--bg-card)", border: "1px solid var(--border)" }}>
+          <Search size={16} color="var(--text-muted)" />
           <input
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Buscar conversa..."
-            className="flex-1 text-sm bg-transparent outline-none"
-            style={{ color: "var(--color-ink)" }}
+            style={{ flex: 1, fontSize: 14, background: "transparent", outline: "none", border: "none", color: "var(--text)" }}
           />
         </div>
       </div>
 
       {/* List */}
       {filtered.length === 0 ? (
-        <div className="flex flex-col items-center justify-center gap-4 p-10 mt-8">
-          <div className="w-20 h-20 rounded-full flex items-center justify-center" style={{ background: "var(--color-block-lilac)" }}>
-            <MessageSquare className="w-10 h-10" style={{ color: "var(--color-block-navy)" }} />
+        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 16, padding: 40, marginTop: 32 }}>
+          <div style={{ width: 80, height: 80, borderRadius: "50%", background: "var(--accent-light)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+            <MessageSquare size={40} color="var(--accent)" />
           </div>
-          <h2 className="font-bold text-lg text-center" style={{ color: "var(--color-ink)" }}>
+          <h2 style={{ fontWeight: 700, fontSize: 18, textAlign: "center", color: "var(--text)" }}>
             {search ? "Nenhum resultado" : "Nenhuma mensagem ainda"}
           </h2>
-          <p className="text-sm text-center" style={{ color: "rgba(0,0,0,0.5)" }}>
+          <p style={{ fontSize: 14, textAlign: "center", color: "var(--text-muted)" }}>
             {search ? "Tente outro nome." : "Quando você tiver um match, a conversa aparece aqui."}
           </p>
           {!search && (
-            <button onClick={() => router.push("/feed")} className="px-6 py-3 font-semibold text-sm"
-              style={{ background: "var(--color-primary)", color: "var(--color-canvas)", borderRadius: "var(--rounded-pill)" }}>
+            <button onClick={() => router.push("/feed")} style={{
+              padding: "12px 24px", fontWeight: 600, fontSize: 14, cursor: "pointer",
+              background: "var(--accent)", color: "#fff", borderRadius: 50, border: "none",
+            }}>
               Explorar Perfis
             </button>
           )}
         </div>
       ) : (
-        <div className="flex flex-col">
+        <div style={{ display: "flex", flexDirection: "column" }}>
           {filtered.map((c) => {
             const partner = getPartner(c)
             const lastMsg = getLastMessage(c)
@@ -115,32 +116,33 @@ export default function DashboardPage() {
               <button
                 key={c.id}
                 onClick={() => router.push(`/partnerships/${c.id}`)}
-                className="w-full text-left flex items-center gap-3 px-5 py-4 transition-colors"
-                style={{ borderBottom: "1px solid var(--color-hairline-soft)" }}
+                style={{
+                  width: "100%", textAlign: "left", display: "flex", alignItems: "center",
+                  gap: 12, padding: "16px 20px", borderBottom: "1px solid var(--border)",
+                  background: "none", border: "none", borderBottom: "1px solid var(--border)", cursor: "pointer",
+                }}
               >
-                <div className="relative shrink-0">
+                <div style={{ position: "relative", flexShrink: 0 }}>
                   {partner.image ? (
-                    <Image src={partner.image} alt={partner.name ?? ""} width={52} height={52} className="rounded-full object-cover" />
+                    <Image src={partner.image} alt={partner.name ?? ""} width={52} height={52} style={{ borderRadius: "50%", objectFit: "cover" }} />
                   ) : (
-                    <div className="w-[52px] h-[52px] rounded-full flex items-center justify-center font-bold text-lg"
-                      style={{ background: "var(--color-block-lilac)", color: "var(--color-block-navy)" }}>
+                    <div style={{ width: 52, height: 52, borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 700, fontSize: 18, background: "var(--accent-light)", color: "var(--accent)" }}>
                       {partner.name?.[0] ?? "?"}
                     </div>
                   )}
-                  <div className="absolute bottom-0 right-0 w-3.5 h-3.5 rounded-full border-2 border-white"
-                    style={{ background: "var(--color-success)" }} />
+                  <div style={{ position: "absolute", bottom: 0, right: 0, width: 14, height: 14, borderRadius: "50%", border: "2px solid var(--bg)", background: "var(--success)" }} />
                 </div>
 
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center justify-between gap-2">
-                    <span className="font-semibold text-sm truncate" style={{ color: "var(--color-ink)" }}>{partner.name}</span>
-                    <span className="text-xs shrink-0" style={{ color: "rgba(0,0,0,0.35)" }}>{timeAgo(c.updatedAt)}</span>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8 }}>
+                    <span style={{ fontWeight: 600, fontSize: 14, color: "var(--text)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{partner.name}</span>
+                    <span style={{ fontSize: 12, flexShrink: 0, color: "var(--text-muted)" }}>{timeAgo(c.updatedAt)}</span>
                   </div>
-                  <p className="text-xs mt-0.5 truncate" style={{ color: "rgba(0,0,0,0.5)" }}>{lastMsg}</p>
+                  <p style={{ fontSize: 12, marginTop: 2, color: "var(--text-muted)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{lastMsg}</p>
                 </div>
 
                 {hasProposal && (
-                  <div className="w-2.5 h-2.5 rounded-full shrink-0" style={{ background: "var(--color-block-navy)" }} />
+                  <div style={{ width: 10, height: 10, borderRadius: "50%", flexShrink: 0, background: "var(--accent)" }} />
                 )}
               </button>
             )
